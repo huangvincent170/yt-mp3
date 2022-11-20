@@ -91,6 +91,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('url')
     parser.add_argument('-c', '--cover-art', metavar='cover-url', help='Sets the cover art to the first frame of the video')
+    parser.add_argument('-k', '--keep', help='Keep temporary files', action='store_true')
     args = parser.parse_args()
 
     video_id = parse_url(args.url)
@@ -146,7 +147,8 @@ def main():
     # clean up temp files
     os.chdir("../")
     shutil.copyfile(f'{tempdir_path}/{video_id}.mp3', f'./{video_id}.mp3')
-    shutil.rmtree(tempdir_path)
+    if not args.keep:
+        shutil.rmtree(tempdir_path)
 
 if __name__ == '__main__':
     main()
